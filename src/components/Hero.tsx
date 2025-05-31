@@ -1,5 +1,6 @@
 
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -31,12 +32,14 @@ const Hero = () => {
             <h1 className="text-4xl md:text-5xl font-light mb-12 tracking-wider">
               DESIGNED FOR THE SUN
             </h1>
-            <Button 
-              size="lg" 
-              className="bg-white text-fashion-charcoal hover:bg-gray-100 transition-all duration-300 font-light px-12 py-4 tracking-wider uppercase"
-            >
-              Shop
-            </Button>
+            <Link to="/shop">
+              <Button 
+                size="lg" 
+                className="bg-white text-fashion-charcoal hover:bg-gray-100 transition-all duration-300 font-light px-12 py-4 tracking-wider uppercase"
+              >
+                Shop
+              </Button>
+            </Link>
           </div>
           
           {/* Decorative birds */}
