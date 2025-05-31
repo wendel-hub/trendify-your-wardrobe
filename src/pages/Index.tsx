@@ -2,7 +2,8 @@
 import { useState } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import CategoryShowcase from "@/components/CategoryShowcase";
+import CollectionShowcase from "@/components/CollectionShowcase";
+import CustomDesignSection from "@/components/CustomDesignSection";
 import ProductGrid from "@/components/ProductGrid";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
@@ -14,10 +15,11 @@ const Index = () => {
 
   return (
     <CartProvider>
-      <div className="min-h-screen bg-fashion-cream font-inter">
+      <div className="min-h-screen bg-white font-inter">
         <Header onCartClick={() => setIsCartOpen(true)} />
         <Hero />
-        <CategoryShowcase />
+        <CollectionShowcase />
+        <CustomDesignSection />
         <ProductGrid />
         <Newsletter />
         <Footer />

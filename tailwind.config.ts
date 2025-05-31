@@ -68,10 +68,10 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				fashion: {
-					cream: '#F8F6F0',
+					cream: '#FAF8F3',
 					sand: '#E6DDD4',
 					charcoal: '#2C2C2C',
-					rose: '#E8B4B8',
+					rose: '#D4A574',
 					sage: '#9CAF88'
 				}
 			},
@@ -79,6 +79,9 @@ export default {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			letterSpacing: {
+				'extra-wide': '0.3em',
 			},
 			keyframes: {
 				'accordion-down': {
