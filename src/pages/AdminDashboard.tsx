@@ -19,8 +19,8 @@ interface Product {
   description: string;
   image_url: string;
   category: string;
-  sizes: string[];
-  colors: string[];
+  sizes: string[] | string;
+  colors: string[] | string;
   stock_quantity: number;
   is_new?: boolean;
   is_sale?: boolean;
@@ -144,12 +144,12 @@ const AdminDashboard = () => {
     try {
       const productData = {
         ...editingProduct,
-        sizes: typeof editingProduct.sizes === 'string' 
-          ? editingProduct.sizes.split(',').map(s => s.trim())
-          : editingProduct.sizes,
-        colors: typeof editingProduct.colors === 'string'
-          ? editingProduct.colors.split(',').map(c => c.trim())
-          : editingProduct.colors
+        sizes: Array.isArray(editingProduct.sizes) 
+          ? editingProduct.sizes
+          : editingProduct.sizes.split(',').map(s => s.trim()),
+        colors: Array.isArray(editingProduct.colors)
+          ? editingProduct.colors
+          : editingProduct.colors.split(',').map(c => c.trim())
       };
 
       const { error } = await supabase
