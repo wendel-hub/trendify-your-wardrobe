@@ -1,10 +1,12 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { Search, Heart, ShoppingBag, Menu, X, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/contexts/CartContext";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 interface HeaderProps {
   onCartClick: () => void;
@@ -12,6 +14,7 @@ interface HeaderProps {
 
 const Header = ({ onCartClick }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [api, setApi] = useState<any>();
   const { getTotalItems } = useCart();
   const totalItems = getTotalItems();
   const isMobile = useIsMobile();
@@ -28,6 +31,17 @@ const Header = ({ onCartClick }: HeaderProps) => {
     { label: "COLLECTIONS", path: "/shop" },
     { label: "SALE", path: "/sale" }
   ];
+
+  // Auto-slide functionality for mobile
+  useEffect(() => {
+    if (!api || !isMobile) return;
+
+    const interval = setInterval(() => {
+      api.scrollNext();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [api, isMobile]);
 
   if (isMobile) {
     return (
@@ -66,6 +80,40 @@ const Header = ({ onCartClick }: HeaderProps) => {
                 </span>
               )}
             </Button>
+          </div>
+
+          {/* Mobile Navigation Carousel */}
+          <div className="py-3 border-t border-gray-100">
+            <Carousel
+              setApi={setApi}
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full"
+            >
+              <CarouselContent className="-ml-1">
+                {navItems.map((item, index) => (
+                  <CarouselItem key={item.label} className="pl-1 basis-1/3">
+                    <Link
+                      to={item.path}
+                      className="block text-center"
+                    >
+                      <div className="text-xs font-light text-fashion-charcoal hover:text-gray-600 transition-colors duration-200 tracking-wider py-2 px-1">
+                        {item.label}
+                      </div>
+                    </Link>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+            
+            {/* Discover link */}
+            <div className="text-center mt-2">
+              <Link to="/shop" className="text-xs font-light text-gray-500 hover:text-gray-700 tracking-wider">
+                DISCOVER
+              </Link>
+            </div>
           </div>
 
           {/* Mobile Navigation Menu */}
