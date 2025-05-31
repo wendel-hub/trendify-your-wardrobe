@@ -1,10 +1,10 @@
-
 import { useState } from "react";
 import { Search, Heart, ShoppingBag, Menu, X, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/contexts/CartContext";
 import { Link } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface HeaderProps {
   onCartClick: () => void;
@@ -14,6 +14,7 @@ const Header = ({ onCartClick }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { getTotalItems } = useCart();
   const totalItems = getTotalItems();
+  const isMobile = useIsMobile();
 
   const navItems = [
     { label: "NEW IN", path: "/new-arrivals" },
@@ -28,6 +29,75 @@ const Header = ({ onCartClick }: HeaderProps) => {
     { label: "SALE", path: "/sale" }
   ];
 
+  if (isMobile) {
+    return (
+      <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
+        <div className="container mx-auto px-4">
+          {/* Mobile header */}
+          <div className="flex items-center justify-between h-16">
+            {/* Menu Button */}
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="text-fashion-charcoal hover:text-gray-600"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </Button>
+
+            {/* Logo */}
+            <Link to="/">
+              <h1 className="text-xl font-light text-fashion-charcoal tracking-[0.2em]">
+                TRENDIFY
+              </h1>
+            </Link>
+
+            {/* Cart Button */}
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="text-fashion-charcoal hover:text-gray-600 relative"
+              onClick={onCartClick}
+            >
+              <ShoppingBag className="w-5 h-5" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-fashion-charcoal text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
+            </Button>
+          </div>
+
+          {/* Mobile Navigation Menu */}
+          {isMenuOpen && (
+            <nav className="pb-4 border-t border-gray-100">
+              <div className="flex flex-col space-y-3 pt-4">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.label}
+                    to={item.path}
+                    className="text-sm font-light text-fashion-charcoal hover:text-gray-600 transition-colors duration-200 tracking-wider py-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+                <Link 
+                  to="/shop" 
+                  className="text-sm font-light text-gray-500 hover:text-gray-700 tracking-wider py-2"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  DISCOVER
+                </Link>
+              </div>
+            </nav>
+          )}
+        </div>
+      </header>
+    );
+  }
+
+  // Desktop view - keep existing layout
   return (
     <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
       <div className="container mx-auto px-4">

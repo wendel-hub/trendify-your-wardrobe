@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -13,7 +14,7 @@ const Hero = () => {
 
   if (isMobile) {
     return (
-      <section className="relative min-h-screen flex flex-col overflow-hidden">
+      <section className="relative flex flex-col overflow-hidden">
         {/* Top Banner */}
         <div className="bg-amber-600 text-white text-center py-3 z-20">
           <p className="text-xs font-medium tracking-wider px-4">
@@ -22,13 +23,13 @@ const Hero = () => {
         </div>
 
         {/* Mobile Carousel */}
-        <div className="flex-1 relative">
-          <Carousel className="w-full h-full">
+        <div className="relative">
+          <Carousel className="w-full">
             <CarouselContent>
               {/* First Image Slide */}
               <CarouselItem>
                 <div 
-                  className="h-screen bg-cover bg-center relative"
+                  className="h-96 bg-cover bg-center relative"
                   style={{
                     backgroundImage: `url('${images[0]}')`
                   }}
@@ -39,7 +40,7 @@ const Hero = () => {
 
               {/* Center Panel - Main Content */}
               <CarouselItem>
-                <div className="h-screen bg-gradient-to-b from-sky-200 to-sky-300 flex flex-col items-center justify-center relative px-8">
+                <div className="h-96 bg-gradient-to-b from-sky-200 to-sky-300 flex flex-col items-center justify-center relative px-8">
                   <div className="text-center text-white">
                     <p className="text-xs font-light tracking-wider mb-2 uppercase">Discover</p>
                     <p className="text-xs font-light tracking-wider mb-6 uppercase">New In</p>
@@ -73,7 +74,7 @@ const Hero = () => {
               {/* Third Image Slide */}
               <CarouselItem>
                 <div 
-                  className="h-screen bg-cover bg-center relative"
+                  className="h-96 bg-cover bg-center relative"
                   style={{
                     backgroundImage: `url('${images[1]}')`
                   }}
