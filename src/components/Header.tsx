@@ -17,7 +17,7 @@ const Header = ({ onCartClick }: HeaderProps) => {
   const navItems = ["NEW IN", "BEST SELLERS", "DRESSES", "SWIMWEAR", "TOPS & BOTTOMS", "JUMPSUITS", "RESORTWEAR", "ACCESSORIES", "COLLECTIONS", "SALE"];
 
   return (
-    <header className="bg-white border-b border-gray-100 sticky top-12 z-40">
+    <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
       <div className="container mx-auto px-4">
         {/* Main header */}
         <div className="flex items-center justify-between h-20">
