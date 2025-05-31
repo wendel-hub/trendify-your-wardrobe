@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Search, Heart, ShoppingBag, Menu, X, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -29,7 +28,8 @@ const Header = ({ onCartClick }: HeaderProps) => {
     { label: "RESORTWEAR", path: "/women" },
     { label: "ACCESSORIES", path: "/accessories" },
     { label: "COLLECTIONS", path: "/shop" },
-    { label: "SALE", path: "/sale" }
+    { label: "SALE", path: "/sale" },
+    { label: "DISCOVER", path: "/shop" }
   ];
 
   // Auto-slide functionality for mobile
@@ -107,13 +107,6 @@ const Header = ({ onCartClick }: HeaderProps) => {
                 ))}
               </CarouselContent>
             </Carousel>
-            
-            {/* Discover link */}
-            <div className="text-center mt-2">
-              <Link to="/shop" className="text-xs font-light text-gray-500 hover:text-gray-700 tracking-wider">
-                DISCOVER
-              </Link>
-            </div>
           </div>
 
           {/* Mobile Navigation Menu */}
