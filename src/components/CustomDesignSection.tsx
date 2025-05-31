@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
-import { Mail, Ruler, Palette } from "lucide-react";
+import { Mail, Ruler, Palette, X } from "lucide-react";
 
 const CustomDesignSection = () => {
   const [selectedFabric, setSelectedFabric] = useState("");
@@ -17,7 +18,7 @@ const CustomDesignSection = () => {
     height: "",
     weight: ""
   });
-  const [showAnimation, setShowAnimation] = useState(false);
+  const [showVisualization, setShowVisualization] = useState(false);
   const [contactForm, setContactForm] = useState({
     name: "",
     email: "",
@@ -45,7 +46,7 @@ const CustomDesignSection = () => {
       });
       return;
     }
-    setShowAnimation(true);
+    setShowVisualization(true);
     toast({
       title: "Visualization Generated!",
       description: "See how the fabric will look on your body type",
@@ -62,6 +63,8 @@ const CustomDesignSection = () => {
       setContactForm({ name: "", email: "", message: "" });
     }
   };
+
+  const selectedFabricData = fabrics.find(f => f.id === selectedFabric);
 
   return (
     <section className="py-20 px-4 bg-fashion-cream">
@@ -166,41 +169,15 @@ const CustomDesignSection = () => {
             </CardContent>
           </Card>
 
-          {/* Visualization & Contact */}
+          {/* Contact Form */}
           <Card className="border-0 shadow-sm bg-white">
             <CardHeader className="text-center">
               <Mail className="w-8 h-8 mx-auto mb-4 text-fashion-rose" />
-              <CardTitle className="font-light tracking-wider">VISUALIZATION</CardTitle>
-              <CardDescription>See how your design will look</CardDescription>
+              <CardTitle className="font-light tracking-wider">BOOK CUSTOM DESIGN</CardTitle>
+              <CardDescription>Tell us about your vision</CardDescription>
             </CardHeader>
             <CardContent>
-              {showAnimation ? (
-                <div className="mb-6">
-                  <div className="relative bg-gradient-to-b from-sky-100 to-sky-200 rounded-lg p-8 text-center">
-                    <div className="animate-fade-in">
-                      <div className="w-24 h-32 mx-auto bg-white rounded-full relative overflow-hidden shadow-lg">
-                        <div 
-                          className="absolute inset-2 rounded-full"
-                          style={{ 
-                            backgroundColor: fabrics.find(f => f.id === selectedFabric)?.color,
-                            opacity: 0.8
-                          }}
-                        ></div>
-                        <div className="absolute inset-4 border-2 border-white rounded-full"></div>
-                      </div>
-                      <p className="text-sm mt-4 text-gray-600">Your body type with selected fabric</p>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="mb-6 p-8 bg-gray-50 rounded-lg text-center">
-                  <p className="text-gray-500 text-sm">Select fabric and enter measurements to see visualization</p>
-                </div>
-              )}
-
-              {/* Contact Form */}
               <form onSubmit={handleContactSubmit} className="space-y-4">
-                <h3 className="font-light tracking-wider text-center mb-4">BOOK CUSTOM DESIGN</h3>
                 <Input
                   placeholder="Your Name"
                   value={contactForm.name}
@@ -231,6 +208,91 @@ const CustomDesignSection = () => {
             </CardContent>
           </Card>
         </div>
+
+        {/* Visualization Popup */}
+        <Dialog open={showVisualization} onOpenChange={setShowVisualization}>
+          <DialogContent className="max-w-md mx-auto bg-white rounded-lg">
+            <DialogHeader>
+              <DialogTitle className="text-center font-light tracking-wider text-xl mb-4">
+                YOUR CUSTOM DESIGN
+              </DialogTitle>
+              <DialogClose className="absolute right-4 top-4">
+                <X className="h-4 w-4" />
+              </DialogClose>
+            </DialogHeader>
+            
+            <div className="text-center p-6">
+              <div className="relative mx-auto w-48 h-64 bg-gradient-to-b from-sky-100 to-sky-200 rounded-lg overflow-hidden mb-6">
+                {/* Mannequin Animation */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="relative animate-pulse">
+                    {/* Head */}
+                    <div className="w-8 h-8 bg-pink-200 rounded-full mx-auto mb-2"></div>
+                    
+                    {/* Body/Dress */}
+                    <div className="relative">
+                      {/* Dress shape */}
+                      <div 
+                        className="w-16 h-32 mx-auto rounded-b-full animate-fade-in"
+                        style={{ 
+                          backgroundColor: selectedFabricData?.color || "#E8DCC0",
+                          boxShadow: "inset 0 4px 8px rgba(0,0,0,0.1)"
+                        }}
+                      >
+                        {/* Fabric texture overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent rounded-b-full"></div>
+                        
+                        {/* Dress details */}
+                        <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-white/30 rounded"></div>
+                        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-white/20 rounded"></div>
+                      </div>
+                      
+                      {/* Arms */}
+                      <div className="absolute top-2 -left-2 w-3 h-8 bg-pink-200 rounded-full transform rotate-12"></div>
+                      <div className="absolute top-2 -right-2 w-3 h-8 bg-pink-200 rounded-full transform -rotate-12"></div>
+                      
+                      {/* Legs */}
+                      <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                        <div className="w-2 h-8 bg-pink-200 rounded-full"></div>
+                        <div className="w-2 h-8 bg-pink-200 rounded-full"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Floating fabric swatches animation */}
+                <div className="absolute top-4 right-4 animate-bounce">
+                  <div 
+                    className="w-4 h-4 rounded"
+                    style={{ backgroundColor: selectedFabricData?.color }}
+                  ></div>
+                </div>
+                <div className="absolute bottom-4 left-4 animate-pulse">
+                  <div 
+                    className="w-3 h-3 rounded"
+                    style={{ backgroundColor: selectedFabricData?.color }}
+                  ></div>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <h3 className="font-medium text-lg">{selectedFabricData?.name}</h3>
+                <p className="text-sm text-gray-600">{selectedFabricData?.texture}</p>
+                <div className="text-xs text-gray-500 space-y-1">
+                  <p>Measurements: {measurements.bust}" × {measurements.waist}" × {measurements.hips}"</p>
+                  {measurements.height && <p>Height: {measurements.height}"</p>}
+                </div>
+              </div>
+              
+              <Button 
+                onClick={() => setShowVisualization(false)}
+                className="w-full mt-6 bg-fashion-charcoal hover:bg-fashion-charcoal/90 text-white font-light tracking-wider"
+              >
+                CLOSE PREVIEW
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
   );
